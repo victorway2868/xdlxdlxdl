@@ -20,7 +20,7 @@ function ContactPage() {
     e.preventDefault();
     // In a real application, you would send the form data to a server here
     console.log('Form submitted:', formData);
-    alert('Thank you for your message! We will get back to you soon.');
+    alert('感谢您的留言！我们会尽快回复您。');
     setFormData({
       name: '',
       email: '',
@@ -31,24 +31,24 @@ function ContactPage() {
 
   const faqs = [
     {
-      question: "How do I download and install StreamAssist?",
-      answer: "You can download StreamAssist from our Downloads page. After downloading, run the installer and follow the on-screen instructions. The installation process is straightforward and should take less than 5 minutes."
+      question: "如何下载和安装小斗笠直播工具？",
+      answer: "您可以从我们的下载页面下载小斗笠直播工具。下载后，运行安装程序并按照屏幕上的说明操作。安装过程简单明了，应该不到5分钟就能完成。"
     },
     {
-      question: "Is StreamAssist compatible with OBS and Streamlabs?",
-      answer: "Yes, StreamAssist is designed to work seamlessly with both OBS Studio and Streamlabs OBS. It integrates directly with these platforms to enhance your streaming capabilities."
+      question: "小斗笠直播工具与OBS和Streamlabs兼容吗？",
+      answer: "是的，小斗笠直播工具设计为与OBS Studio和Streamlabs OBS无缝协作。它直接与这些平台集成，以增强您的直播功能。"
     },
     {
-      question: "Do you offer refunds for the paid services?",
-      answer: "Yes, we offer a 14-day money-back guarantee for all our paid services. If you're not satisfied with the service, please contact our support team to process your refund."
+      question: "付费服务提供退款吗？",
+      answer: "是的，我们为所有付费服务提供14天退款保证。如果您对服务不满意，请联系我们的支持团队处理退款。"
     },
     {
-      question: "How often are the tools updated?",
-      answer: "We release updates for our tools approximately once a month, with major feature updates every quarter. All updates are free for existing users."
+      question: "工具多久更新一次？",
+      answer: "我们大约每月发布一次工具更新，每季度发布主要功能更新。所有更新对现有用户都是免费的。"
     },
     {
-      question: "Can I use StreamAssist for professional broadcasting?",
-      answer: "Absolutely! StreamAssist is used by many professional broadcasters and esports events. Our premium tier offers additional features specifically designed for professional use."
+      question: "我可以将小斗笠直播工具用于专业广播吗？",
+      answer: "当然可以！小斗笠直播工具被许多专业广播公司和电竞赛事使用。我们的高级版本提供专为专业用途设计的附加功能。"
     }
   ];
 
@@ -56,20 +56,20 @@ function ContactPage() {
     <div className="py-12 bg-gray-50 dark:bg-gray-900 min-h-screen">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold mb-4">Contact Us</h1>
+          <h1 className="text-4xl font-bold mb-4">联系我们</h1>
           <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-            Have questions or need assistance? We're here to help you with all your streaming needs.
+            有问题或需要帮助？我们在这里为您提供所有直播需求的支持。
           </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
           {/* Contact Form */}
           <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-8">
-            <h2 className="text-2xl font-bold mb-6">Send Us a Message</h2>
+            <h2 className="text-2xl font-bold mb-6">发送消息</h2>
             <form onSubmit={handleSubmit}>
               <div className="mb-4">
                 <label htmlFor="name" className="block text-gray-700 dark:text-gray-300 font-medium mb-2">
-                  Your Name
+                  您的姓名
                 </label>
                 <input
                   type="text"
@@ -81,10 +81,10 @@ function ContactPage() {
                   required
                 />
               </div>
-              
+
               <div className="mb-4">
                 <label htmlFor="email" className="block text-gray-700 dark:text-gray-300 font-medium mb-2">
-                  Email Address
+                  邮箱地址
                 </label>
                 <input
                   type="email"
@@ -96,10 +96,10 @@ function ContactPage() {
                   required
                 />
               </div>
-              
+
               <div className="mb-4">
                 <label htmlFor="subject" className="block text-gray-700 dark:text-gray-300 font-medium mb-2">
-                  Subject
+                  主题
                 </label>
                 <select
                   id="subject"
@@ -109,18 +109,18 @@ function ContactPage() {
                   className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
                   required
                 >
-                  <option value="">Select a subject</option>
-                  <option value="General Inquiry">General Inquiry</option>
-                  <option value="Technical Support">Technical Support</option>
-                  <option value="Feature Request">Feature Request</option>
-                  <option value="Billing Question">Billing Question</option>
-                  <option value="Partnership Opportunity">Partnership Opportunity</option>
+                  <option value="">选择主题</option>
+                  <option value="General Inquiry">一般咨询</option>
+                  <option value="Technical Support">技术支持</option>
+                  <option value="Feature Request">功能请求</option>
+                  <option value="Billing Question">账单问题</option>
+                  <option value="Partnership Opportunity">合作机会</option>
                 </select>
               </div>
-              
+
               <div className="mb-6">
                 <label htmlFor="message" className="block text-gray-700 dark:text-gray-300 font-medium mb-2">
-                  Your Message
+                  您的消息
                 </label>
                 <textarea
                   id="message"
@@ -132,9 +132,9 @@ function ContactPage() {
                   required
                 ></textarea>
               </div>
-              
+
               <button type="submit" className="btn btn-primary w-full py-3">
-                Send Message
+                发送消息
               </button>
             </form>
           </div>
@@ -142,8 +142,8 @@ function ContactPage() {
           {/* Contact Information */}
           <div>
             <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-8 mb-8">
-              <h2 className="text-2xl font-bold mb-6">Contact Information</h2>
-              
+              <h2 className="text-2xl font-bold mb-6">联系信息</h2>
+
               <div className="space-y-4">
                 <div className="flex items-start">
                   <div className="flex-shrink-0 mt-1">
@@ -152,11 +152,11 @@ function ContactPage() {
                     </svg>
                   </div>
                   <div className="ml-3">
-                    <p className="text-gray-900 dark:text-white font-medium">Email</p>
-                    <p className="text-gray-600 dark:text-gray-300">support@streamassist.com</p>
+                    <p className="text-gray-900 dark:text-white font-medium">邮箱</p>
+                    <p className="text-gray-600 dark:text-gray-300">support@xiaodouli.com</p>
                   </div>
                 </div>
-                
+
                 <div className="flex items-start">
                   <div className="flex-shrink-0 mt-1">
                     <svg className="h-6 w-6 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -164,11 +164,11 @@ function ContactPage() {
                     </svg>
                   </div>
                   <div className="ml-3">
-                    <p className="text-gray-900 dark:text-white font-medium">Phone</p>
-                    <p className="text-gray-600 dark:text-gray-300">+1 (555) 123-4567</p>
+                    <p className="text-gray-900 dark:text-white font-medium">电话</p>
+                    <p className="text-gray-600 dark:text-gray-300">+86 400-123-4567</p>
                   </div>
                 </div>
-                
+
                 <div className="flex items-start">
                   <div className="flex-shrink-0 mt-1">
                     <svg className="h-6 w-6 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -177,15 +177,15 @@ function ContactPage() {
                     </svg>
                   </div>
                   <div className="ml-3">
-                    <p className="text-gray-900 dark:text-white font-medium">Office</p>
+                    <p className="text-gray-900 dark:text-white font-medium">办公地址</p>
                     <p className="text-gray-600 dark:text-gray-300">
-                      123 Streaming Avenue<br />
-                      San Francisco, CA 94107<br />
-                      United States
+                      中国北京市朝阳区<br />
+                      直播科技大厦 1001室<br />
+                      邮编: 100020
                     </p>
                   </div>
                 </div>
-                
+
                 <div className="flex items-start">
                   <div className="flex-shrink-0 mt-1">
                     <svg className="h-6 w-6 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -193,18 +193,18 @@ function ContactPage() {
                     </svg>
                   </div>
                   <div className="ml-3">
-                    <p className="text-gray-900 dark:text-white font-medium">Support Hours</p>
+                    <p className="text-gray-900 dark:text-white font-medium">客服时间</p>
                     <p className="text-gray-600 dark:text-gray-300">
-                      Monday - Friday: 9am - 6pm EST<br />
-                      Saturday: 10am - 4pm EST<br />
-                      Sunday: Closed
+                      周一至周五: 上午9点 - 下午6点<br />
+                      周六: 上午10点 - 下午4点<br />
+                      周日: 休息
                     </p>
                   </div>
                 </div>
               </div>
-              
+
               <div className="mt-8">
-                <h3 className="text-lg font-semibold mb-4">Connect With Us</h3>
+                <h3 className="text-lg font-semibold mb-4">关注我们</h3>
                 <div className="flex space-x-4">
                   <a href="#" className="text-gray-600 hover:text-primary-600 dark:text-gray-300 dark:hover:text-primary-500">
                     <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
@@ -229,9 +229,9 @@ function ContactPage() {
                 </div>
               </div>
             </div>
-            
+
             <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-8">
-              <h2 className="text-2xl font-bold mb-6">Frequently Asked Questions</h2>
+              <h2 className="text-2xl font-bold mb-6">常见问题</h2>
               <div className="space-y-6">
                 {faqs.map((faq, index) => (
                   <div key={index}>

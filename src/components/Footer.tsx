@@ -10,43 +10,43 @@ function Footer() {
           {/* Logo and Description */}
           <div className="col-span-1 md:col-span-1">
             <Link to="/" className="flex items-center space-x-3 mb-4">
-              <svg 
-                className="h-8 w-8 text-primary-600" 
-                viewBox="0 0 24 24" 
+              <svg
+                className="h-8 w-8 text-primary-600"
+                viewBox="0 0 24 24"
                 fill="currentColor"
               >
                 <path d="M4 8H2v12a2 2 0 002 2h12v-2H4V8z" />
                 <path d="M20 2H8a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2V4a2 2 0 00-2-2zm-9 12V6l7 4-7 4z" />
               </svg>
-              <span className="text-xl font-bold text-gray-900 dark:text-white">StreamAssist</span>
+              <span className="text-xl font-bold text-gray-900 dark:text-white">小斗笠直播工具</span>
             </Link>
             <p className="text-gray-600 dark:text-gray-300 text-sm">
-              Your ultimate streaming companion. Enhance your live streaming experience with our tools and resources.
+              您的终极直播伴侣。通过我们的工具和资源提升您的直播体验。
             </p>
           </div>
 
           {/* Quick Links */}
           <div className="col-span-1">
-            <h3 className="text-gray-900 dark:text-white font-semibold mb-4">Quick Links</h3>
+            <h3 className="text-gray-900 dark:text-white font-semibold mb-4">快速链接</h3>
             <ul className="space-y-2">
               <li>
                 <Link to="/" className="text-gray-600 hover:text-primary-600 dark:text-gray-300 dark:hover:text-primary-500 text-sm">
-                  Home
+                  首页
                 </Link>
               </li>
               <li>
                 <Link to="/downloads" className="text-gray-600 hover:text-primary-600 dark:text-gray-300 dark:hover:text-primary-500 text-sm">
-                  Downloads
+                  插件工具
                 </Link>
               </li>
               <li>
                 <Link to="/tutorials" className="text-gray-600 hover:text-primary-600 dark:text-gray-300 dark:hover:text-primary-500 text-sm">
-                  Tutorials
+                  使用教程
                 </Link>
               </li>
               <li>
                 <Link to="/equipment" className="text-gray-600 hover:text-primary-600 dark:text-gray-300 dark:hover:text-primary-500 text-sm">
-                  Equipment
+                  设备推荐
                 </Link>
               </li>
             </ul>
@@ -54,26 +54,26 @@ function Footer() {
 
           {/* Support */}
           <div className="col-span-1">
-            <h3 className="text-gray-900 dark:text-white font-semibold mb-4">Support</h3>
+            <h3 className="text-gray-900 dark:text-white font-semibold mb-4">支持</h3>
             <ul className="space-y-2">
               <li>
                 <Link to="/debug" className="text-gray-600 hover:text-primary-600 dark:text-gray-300 dark:hover:text-primary-500 text-sm">
-                  Debug Service
+                  技术支持
                 </Link>
               </li>
               <li>
                 <Link to="/contact" className="text-gray-600 hover:text-primary-600 dark:text-gray-300 dark:hover:text-primary-500 text-sm">
-                  Contact Us
+                  联系我们
                 </Link>
               </li>
               <li>
                 <a href="#" className="text-gray-600 hover:text-primary-600 dark:text-gray-300 dark:hover:text-primary-500 text-sm">
-                  FAQ
+                  常见问题
                 </a>
               </li>
               <li>
                 <a href="#" className="text-gray-600 hover:text-primary-600 dark:text-gray-300 dark:hover:text-primary-500 text-sm">
-                  Privacy Policy
+                  隐私政策
                 </a>
               </li>
             </ul>
@@ -81,7 +81,7 @@ function Footer() {
 
           {/* Connect */}
           <div className="col-span-1">
-            <h3 className="text-gray-900 dark:text-white font-semibold mb-4">Connect</h3>
+            <h3 className="text-gray-900 dark:text-white font-semibold mb-4">关注我们</h3>
             <div className="flex space-x-4">
               <a href="#" className="text-gray-600 hover:text-primary-600 dark:text-gray-300 dark:hover:text-primary-500">
                 <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
@@ -110,7 +110,7 @@ function Footer() {
         {/* Copyright */}
         <div className="border-t border-gray-200 dark:border-gray-700 mt-8 pt-6">
           <p className="text-gray-600 dark:text-gray-300 text-sm text-center">
-            © {currentYear} StreamAssist. All rights reserved.
+            © {currentYear} 小斗笠直播工具. 保留所有权利.
           </p>
         </div>
       </div>

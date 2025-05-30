@@ -14,85 +14,85 @@ function Navbar() {
         <div className="flex justify-between items-center">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-3">
-            <svg 
-              className="h-8 w-8 text-primary-600" 
-              viewBox="0 0 24 24" 
+            <svg
+              className="h-8 w-8 text-primary-600"
+              viewBox="0 0 24 24"
               fill="currentColor"
             >
               <path d="M4 8H2v12a2 2 0 002 2h12v-2H4V8z" />
               <path d="M20 2H8a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2V4a2 2 0 00-2-2zm-9 12V6l7 4-7 4z" />
             </svg>
-            <span className="text-xl font-bold text-gray-900 dark:text-white">StreamAssist</span>
+            <span className="text-xl font-bold text-gray-900 dark:text-white">小斗笠直播工具</span>
           </Link>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex space-x-8">
-            <NavLink 
-              to="/" 
-              className={({ isActive }) => 
-                isActive 
-                  ? "text-primary-600 font-medium" 
+            <NavLink
+              to="/"
+              className={({ isActive }) =>
+                isActive
+                  ? "text-primary-600 font-medium"
                   : "text-gray-600 hover:text-primary-600 dark:text-gray-300 dark:hover:text-primary-500"
               }
               end
             >
-              Home
+              首页
             </NavLink>
-            <NavLink 
-              to="/downloads" 
-              className={({ isActive }) => 
-                isActive 
-                  ? "text-primary-600 font-medium" 
+            <NavLink
+              to="/downloads"
+              className={({ isActive }) =>
+                isActive
+                  ? "text-primary-600 font-medium"
                   : "text-gray-600 hover:text-primary-600 dark:text-gray-300 dark:hover:text-primary-500"
               }
             >
-              Downloads
+              插件工具
             </NavLink>
-            <NavLink 
-              to="/tutorials" 
-              className={({ isActive }) => 
-                isActive 
-                  ? "text-primary-600 font-medium" 
+            <NavLink
+              to="/tutorials"
+              className={({ isActive }) =>
+                isActive
+                  ? "text-primary-600 font-medium"
                   : "text-gray-600 hover:text-primary-600 dark:text-gray-300 dark:hover:text-primary-500"
               }
             >
-              Tutorials
+              使用教程
             </NavLink>
-            <NavLink 
-              to="/equipment" 
-              className={({ isActive }) => 
-                isActive 
-                  ? "text-primary-600 font-medium" 
+            <NavLink
+              to="/equipment"
+              className={({ isActive }) =>
+                isActive
+                  ? "text-primary-600 font-medium"
                   : "text-gray-600 hover:text-primary-600 dark:text-gray-300 dark:hover:text-primary-500"
               }
             >
-              Equipment
+              设备推荐
             </NavLink>
-            <NavLink 
-              to="/debug" 
-              className={({ isActive }) => 
-                isActive 
-                  ? "text-primary-600 font-medium" 
+            <NavLink
+              to="/debug"
+              className={({ isActive }) =>
+                isActive
+                  ? "text-primary-600 font-medium"
                   : "text-gray-600 hover:text-primary-600 dark:text-gray-300 dark:hover:text-primary-500"
               }
             >
-              Debug
+              技术支持
             </NavLink>
-            <NavLink 
-              to="/contact" 
-              className={({ isActive }) => 
-                isActive 
-                  ? "text-primary-600 font-medium" 
+            <NavLink
+              to="/contact"
+              className={({ isActive }) =>
+                isActive
+                  ? "text-primary-600 font-medium"
                   : "text-gray-600 hover:text-primary-600 dark:text-gray-300 dark:hover:text-primary-500"
               }
             >
-              Contact
+              联系我们
             </NavLink>
           </div>
 
           {/* Mobile Menu Button */}
           <div className="md:hidden">
-            <button 
+            <button
               onClick={toggleMenu}
               className="text-gray-600 hover:text-primary-600 dark:text-gray-300 focus:outline-none"
             >
@@ -113,72 +113,72 @@ function Navbar() {
         {isMenuOpen && (
           <div className="md:hidden mt-4 pb-2">
             <div className="flex flex-col space-y-3">
-              <NavLink 
-                to="/" 
-                className={({ isActive }) => 
-                  isActive 
-                    ? "text-primary-600 font-medium" 
+              <NavLink
+                to="/"
+                className={({ isActive }) =>
+                  isActive
+                    ? "text-primary-600 font-medium"
                     : "text-gray-600 hover:text-primary-600 dark:text-gray-300 dark:hover:text-primary-500"
                 }
                 end
                 onClick={() => setIsMenuOpen(false)}
               >
-                Home
+                首页
               </NavLink>
-              <NavLink 
-                to="/downloads" 
-                className={({ isActive }) => 
-                  isActive 
-                    ? "text-primary-600 font-medium" 
+              <NavLink
+                to="/downloads"
+                className={({ isActive }) =>
+                  isActive
+                    ? "text-primary-600 font-medium"
                     : "text-gray-600 hover:text-primary-600 dark:text-gray-300 dark:hover:text-primary-500"
                 }
                 onClick={() => setIsMenuOpen(false)}
               >
-                Downloads
+                插件工具
               </NavLink>
-              <NavLink 
-                to="/tutorials" 
-                className={({ isActive }) => 
-                  isActive 
-                    ? "text-primary-600 font-medium" 
+              <NavLink
+                to="/tutorials"
+                className={({ isActive }) =>
+                  isActive
+                    ? "text-primary-600 font-medium"
                     : "text-gray-600 hover:text-primary-600 dark:text-gray-300 dark:hover:text-primary-500"
                 }
                 onClick={() => setIsMenuOpen(false)}
               >
-                Tutorials
+                使用教程
               </NavLink>
-              <NavLink 
-                to="/equipment" 
-                className={({ isActive }) => 
-                  isActive 
-                    ? "text-primary-600 font-medium" 
+              <NavLink
+                to="/equipment"
+                className={({ isActive }) =>
+                  isActive
+                    ? "text-primary-600 font-medium"
                     : "text-gray-600 hover:text-primary-600 dark:text-gray-300 dark:hover:text-primary-500"
                 }
                 onClick={() => setIsMenuOpen(false)}
               >
-                Equipment
+                设备推荐
               </NavLink>
-              <NavLink 
-                to="/debug" 
-                className={({ isActive }) => 
-                  isActive 
-                    ? "text-primary-600 font-medium" 
+              <NavLink
+                to="/debug"
+                className={({ isActive }) =>
+                  isActive
+                    ? "text-primary-600 font-medium"
                     : "text-gray-600 hover:text-primary-600 dark:text-gray-300 dark:hover:text-primary-500"
                 }
                 onClick={() => setIsMenuOpen(false)}
               >
-                Debug
+                技术支持
               </NavLink>
-              <NavLink 
-                to="/contact" 
-                className={({ isActive }) => 
-                  isActive 
-                    ? "text-primary-600 font-medium" 
+              <NavLink
+                to="/contact"
+                className={({ isActive }) =>
+                  isActive
+                    ? "text-primary-600 font-medium"
                     : "text-gray-600 hover:text-primary-600 dark:text-gray-300 dark:hover:text-primary-500"
                 }
                 onClick={() => setIsMenuOpen(false)}
               >
-                Contact
+                联系我们
               </NavLink>
             </div>
           </div>
