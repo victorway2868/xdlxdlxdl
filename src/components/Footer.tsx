@@ -36,6 +36,11 @@ function Footer() {
               </li>
               <li>
                 <Link to="/downloads" className="text-gray-600 hover:text-primary-600 dark:text-gray-300 dark:hover:text-primary-500 text-sm">
+                  下载软件
+                </Link>
+              </li>
+              <li>
+                <Link to="/plugins" className="text-gray-600 hover:text-primary-600 dark:text-gray-300 dark:hover:text-primary-500 text-sm">
                   插件工具
                 </Link>
               </li>

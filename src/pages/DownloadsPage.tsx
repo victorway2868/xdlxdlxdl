@@ -66,9 +66,9 @@ function DownloadsPage() {
     <div className="py-12 bg-gray-50 dark:bg-gray-900 min-h-screen">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold mb-4">下载直播工具</h1>
+          <h1 className="text-4xl font-bold mb-4">下载直播软件</h1>
           <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-            使用我们为各级别主播设计的专业级工具，提升您的直播体验。
+            使用我们为各级别主播设计的专业级软件，提升您的直播体验。
           </p>
         </div>
 
@@ -119,7 +119,7 @@ function DownloadsPage() {
         <div className="mt-16 bg-primary-50 dark:bg-gray-700 rounded-lg p-8 text-center">
           <h2 className="text-2xl font-bold mb-4">需要入门帮助？</h2>
           <p className="text-lg mb-6 max-w-3xl mx-auto">
-            查看我们详细的教程，了解如何安装和配置这些工具以获得最佳的直播体验。
+            查看我们详细的教程，了解如何安装和配置这些软件以获得最佳的直播体验。
           </p>
           <a href="/tutorials" className="btn btn-primary px-6 py-3 inline-block">查看教程</a>
         </div>

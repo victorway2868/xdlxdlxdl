@@ -1,212 +1,369 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+
+interface Tutorial {
+  id: number;
+  title: string;
+  type: 'video' | 'image' | 'audio';
+  url: string;
+  platform: string;
+  playType: string;
+  viewCount: number;
+  isHot: boolean;
+  thumbnail: string;
+  duration?: number;
+  description: string;
+  level: 'beginner' | 'intermediate' | 'advanced';
+}
 
 function TutorialsPage() {
-  const categories = [
-    "全部",
-    "入门指南",
-    "软件设置",
-    "硬件设置",
-    "直播优化",
-    "内容创作",
-    "高级技巧"
-  ];
+  const [tutorials, setTutorials] = useState<Tutorial[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [selectedTutorial, setSelectedTutorial] = useState<Tutorial | null>(null);
+  const [showVideoModal, setShowVideoModal] = useState(false);
 
-  const [activeCategory, setActiveCategory] = useState("全部");
+  useEffect(() => {
+    const fetchTutorials = async () => {
+      try {
+        setLoading(true);
+        setError(null);
 
-  const tutorials = [
-    {
-      id: 1,
-      title: "小斗笠直播工具入门指南",
-      description: "学习设置小斗笠直播工具进行首次直播的基础知识。",
-      category: "入门指南",
-      duration: "15 分钟",
-      level: "初级",
-      thumbnail: "https://via.placeholder.com/300x200",
-      featured: true
-    },
-    {
-      id: 2,
-      title: "优化直播设置以提升画质",
-      description: "找到直播质量和性能之间的完美平衡。",
-      category: "直播优化",
-      duration: "22 分钟",
-      level: "中级",
-      thumbnail: "https://via.placeholder.com/300x200"
-    },
-    {
-      id: 3,
-      title: "设置多摄像头直播",
-      description: "为您的直播创建专业的多摄像头设置。",
-      category: "硬件设置",
-      duration: "18 分钟",
-      level: "中级",
-      thumbnail: "https://via.placeholder.com/300x200"
-    },
-    {
-      id: 4,
-      title: "创建自定义覆盖层",
-      description: "设计符合您品牌和风格的独特覆盖层。",
-      category: "内容创作",
-      duration: "30 分钟",
-      level: "中级",
-      thumbnail: "https://via.placeholder.com/300x200",
-      featured: true
-    },
-    {
-      id: 5,
-      title: "高级音频配置",
-      description: "通过高级混音和处理完善您直播的音频效果。",
-      category: "高级技巧",
-      duration: "25 分钟",
-      level: "高级",
-      thumbnail: "https://via.placeholder.com/300x200"
-    },
-    {
-      id: 6,
-      title: "安装小斗笠插件",
-      description: "使用强大的插件扩展小斗笠直播工具的功能。",
-      category: "软件设置",
-      duration: "12 分钟",
-      level: "初级",
-      thumbnail: "https://via.placeholder.com/300x200"
-    },
-    {
-      id: 7,
-      title: "设置直播提醒",
-      description: "为订阅和打赏配置引人入胜的提醒效果。",
-      category: "软件设置",
-      duration: "20 分钟",
-      level: "初级",
-      thumbnail: "https://via.placeholder.com/300x200"
-    },
-    {
-      id: 8,
-      title: "优化您的灯光设置",
-      description: "为专业外观的直播创建完美的灯光效果。",
-      category: "硬件设置",
-      duration: "15 分钟",
-      level: "中级",
-      thumbnail: "https://via.placeholder.com/300x200"
+        const response = await fetch('http://localhost:8000/api/v1/media-manifest/public/category/tutorial', {
+          method: 'GET',
+          headers: {
+            'accept': 'application/json',
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        if (data && data.tutorial && Array.isArray(data.tutorial)) {
+          setTutorials(data.tutorial);
+        } else {
+          throw new Error('Invalid data format received from API');
+        }
+      } catch (err) {
+        console.error('Error fetching tutorials:', err);
+        setError(err instanceof Error ? err.message : 'Failed to fetch tutorials');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTutorials();
+  }, []);
+
+  const formatDuration = (seconds?: number) => {
+    if (!seconds) return '';
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+  };
+
+  const getLevelColor = (level: string) => {
+    switch (level) {
+      case 'beginner':
+        return 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200';
+      case 'intermediate':
+        return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200';
+      case 'advanced':
+        return 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200';
+      default:
+        return 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200';
     }
-  ];
+  };
 
-  const filteredTutorials = activeCategory === "全部"
-    ? tutorials
-    : tutorials.filter(tutorial => tutorial.category === activeCategory);
+  const getLevelText = (level: string) => {
+    switch (level) {
+      case 'beginner': return '初级';
+      case 'intermediate': return '中级';
+      case 'advanced': return '高级';
+      default: return level;
+    }
+  };
 
-  const featuredTutorials = tutorials.filter(tutorial => tutorial.featured);
+  const getPlayUrl = (tutorial: Tutorial) => {
+    // 如果是抖音平台，转换URL格式
+    if (tutorial.platform === 'douyin') {
+      // 提取URL中的数字ID（长度大于12位的数字）
+      const videoIdMatch = tutorial.url.match(/(\d{13,})/);
+      if (videoIdMatch && videoIdMatch[1]) {
+        const videoId = videoIdMatch[1];
+        return `https://open.douyin.com/player/video?vid=${videoId}&autoplay=0`;
+      }
+    }
+    // 其他平台直接返回原URL
+    return tutorial.url;
+  };
+
+  const handleTutorialClick = (tutorial: Tutorial) => {
+    setSelectedTutorial(tutorial);
+    setShowVideoModal(true);
+  };
+
+  const closeVideoModal = () => {
+    setShowVideoModal(false);
+    setSelectedTutorial(null);
+  };
+
+  // 添加键盘事件监听
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape' && showVideoModal) {
+        closeVideoModal();
+      }
+    };
+
+    if (showVideoModal) {
+      document.addEventListener('keydown', handleKeyDown);
+      // 防止背景滚动
+      document.body.style.overflow = 'hidden';
+    }
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = 'unset';
+    };
+  }, [showVideoModal]);
+
+  const getTypeIcon = (type: string) => {
+    switch (type) {
+      case 'video':
+        return (
+          <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M2 6a2 2 0 012-2h6l2 2h6a2 2 0 012 2v6a2 2 0 01-2 2H4a2 2 0 01-2-2V6zM5 8a1 1 0 000 2h8a1 1 0 100-2H5z"/>
+          </svg>
+        );
+      case 'audio':
+        return (
+          <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+            <path fillRule="evenodd" d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217zM15.657 6.343a1 1 0 011.414 0A9.972 9.972 0 0119 12a9.972 9.972 0 01-1.929 5.657 1 1 0 11-1.414-1.414A7.971 7.971 0 0017 12a7.971 7.971 0 00-1.343-4.243 1 1 0 010-1.414z" clipRule="evenodd"/>
+          </svg>
+        );
+      case 'image':
+        return (
+          <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+            <path fillRule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clipRule="evenodd"/>
+          </svg>
+        );
+      default:
+        return null;
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="py-12 bg-gray-50 dark:bg-gray-900 min-h-screen">
+        <div className="container mx-auto px-4">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary-600 mx-auto"></div>
+            <p className="mt-4 text-gray-600 dark:text-gray-300">正在从API加载教程数据...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="py-12 bg-gray-50 dark:bg-gray-900 min-h-screen">
+        <div className="container mx-auto px-4">
+          <div className="text-center">
+            <div className="text-red-500 text-6xl mb-4">⚠️</div>
+            <h2 className="text-2xl font-bold mb-4 text-red-600 dark:text-red-400">API连接错误</h2>
+            <p className="text-gray-600 dark:text-gray-300 mb-6">
+              无法连接到API服务器: {error}
+            </p>
+            <div className="bg-white dark:bg-gray-800 p-4 rounded-lg mb-6 text-left max-w-2xl mx-auto">
+              <h3 className="font-semibold mb-2">请检查:</h3>
+              <ul className="text-sm space-y-1">
+                <li>• API服务器是否在 http://localhost:8000 运行</li>
+                <li>• 网络连接是否正常</li>
+                <li>• API端点是否可访问</li>
+              </ul>
+            </div>
+            <button
+              onClick={() => window.location.reload()}
+              className="btn btn-primary px-6 py-3"
+            >
+              重新加载
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="py-12 bg-gray-50 dark:bg-gray-900 min-h-screen">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold mb-4">直播教程</h1>
-          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-            通过我们的综合教程学习如何设置、优化和增强您的直播。
+          <h1 className="text-4xl font-bold mb-4">教程媒体库</h1>
+          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto mb-6">
+            浏览我们的教程视频、音频和图片资源
           </p>
+          <div className="flex justify-center gap-4">
+            <button
+              onClick={() => window.location.reload()}
+              className="btn bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600 px-4 py-2"
+              title="刷新数据"
+            >
+              🔄 刷新数据
+            </button>
+            <span className="text-sm text-gray-500 dark:text-gray-400 flex items-center">
+              数据来源: API (localhost:8000)
+            </span>
+          </div>
         </div>
 
-        {/* Featured Tutorials */}
-        {featuredTutorials.length > 0 && (
-          <div className="mb-16">
-            <h2 className="text-2xl font-bold mb-6">精选教程</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {featuredTutorials.map(tutorial => (
-                <div key={tutorial.id} className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden flex flex-col">
-                  <div className="h-48 bg-gray-200 dark:bg-gray-700">
-                    <img
-                      src={tutorial.thumbnail}
-                      alt={tutorial.title}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                  <div className="p-6 flex-grow">
-                    <div className="flex justify-between items-start mb-2">
-                      <span className="bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 text-xs font-medium px-2.5 py-0.5 rounded">
-                        {tutorial.category}
-                      </span>
-                      <span className="text-gray-500 dark:text-gray-400 text-sm">
-                        {tutorial.duration}
-                      </span>
-                    </div>
-                    <h3 className="text-xl font-bold mb-2">{tutorial.title}</h3>
-                    <p className="text-gray-600 dark:text-gray-300 mb-4">{tutorial.description}</p>
-                    <div className="mt-auto">
-                      <button className="btn btn-primary w-full">观看教程</button>
-                    </div>
-                  </div>
+        {/* 统计信息 */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+          <div className="bg-white dark:bg-gray-800 rounded-lg p-6 text-center shadow-md">
+            <div className="text-2xl font-bold text-primary-600">{tutorials.filter(t => t.type === 'video').length}</div>
+            <div className="text-gray-600 dark:text-gray-300">视频教程</div>
+          </div>
+          <div className="bg-white dark:bg-gray-800 rounded-lg p-6 text-center shadow-md">
+            <div className="text-2xl font-bold text-primary-600">{tutorials.filter(t => t.type === 'audio').length}</div>
+            <div className="text-gray-600 dark:text-gray-300">音频教程</div>
+          </div>
+          <div className="bg-white dark:bg-gray-800 rounded-lg p-6 text-center shadow-md">
+            <div className="text-2xl font-bold text-primary-600">{tutorials.filter(t => t.type === 'image').length}</div>
+            <div className="text-gray-600 dark:text-gray-300">图片教程</div>
+          </div>
+          <div className="bg-white dark:bg-gray-800 rounded-lg p-6 text-center shadow-md">
+            <div className="text-2xl font-bold text-primary-600">{tutorials.reduce((sum, t) => sum + t.viewCount, 0).toLocaleString()}</div>
+            <div className="text-gray-600 dark:text-gray-300">总观看次数</div>
+          </div>
+        </div>
+
+        {/* 教程列表 */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {tutorials.map(tutorial => (
+            <div
+              key={tutorial.id}
+              onClick={() => handleTutorialClick(tutorial)}
+              className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow group cursor-pointer"
+            >
+              {/* 缩略图区域 */}
+              <div className="h-40 bg-gray-200 dark:bg-gray-700 relative flex items-center justify-center">
+                {tutorial.thumbnail && tutorial.thumbnail !== 'https://via.placeholder.com/300x200?text=No+Image' ? (
+                  <img
+                    src={tutorial.thumbnail}
+                    alt={tutorial.title}
+                    className="w-full h-full object-cover"
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.style.display = 'none';
+                      target.parentElement!.innerHTML = '<div class="text-gray-400 dark:text-gray-500 text-sm">无图片</div>';
+                    }}
+                  />
+                ) : (
+                  <div className="text-gray-400 dark:text-gray-500 text-sm">无图片</div>
+                )}
+
+                {/* 类型标签 */}
+                <div className="absolute top-2 left-2 bg-primary-600 text-white px-2 py-1 rounded text-xs font-medium">
+                  {tutorial.type === 'video' ? '视频' : tutorial.type === 'audio' ? '音频' : '图片'}
                 </div>
-              ))}
-            </div>
-          </div>
-        )}
 
-        {/* Category Filter */}
-        <div className="mb-8 overflow-x-auto">
-          <div className="flex space-x-2 pb-2">
-            {categories.map(category => (
-              <button
-                key={category}
-                className={`px-4 py-2 rounded-full whitespace-nowrap ${
-                  activeCategory === category
-                    ? 'bg-primary-600 text-white'
-                    : 'bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-600'
-                }`}
-                onClick={() => setActiveCategory(category)}
-              >
-                {category}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* All Tutorials */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredTutorials.map(tutorial => (
-            <div key={tutorial.id} className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden flex flex-col">
-              <div className="h-48 bg-gray-200 dark:bg-gray-700">
-                <img
-                  src={tutorial.thumbnail}
-                  alt={tutorial.title}
-                  className="w-full h-full object-cover"
-                />
+                {/* 热门标签 */}
+                {tutorial.isHot && (
+                  <div className="absolute top-2 right-2 bg-red-500 text-white px-2 py-1 rounded text-xs font-bold">
+                    热门
+                  </div>
+                )}
               </div>
-              <div className="p-6 flex-grow">
-                <div className="flex justify-between items-start mb-2">
-                  <span className="bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 text-xs font-medium px-2.5 py-0.5 rounded">
-                    {tutorial.category}
+
+              {/* 内容区域 */}
+              <div className="p-6">
+                {/* 标题 */}
+                <h3 className="text-xl font-semibold mb-2 line-clamp-2 group-hover:text-primary-600 transition-colors">
+                  {tutorial.title}
+                </h3>
+
+                {/* 描述 */}
+                <p className="text-gray-600 dark:text-gray-300 text-sm mb-4 line-clamp-2">
+                  {tutorial.description}
+                </p>
+
+                {/* 平台和观看次数 */}
+                <div className="flex items-center justify-between">
+                  <span className="text-xs bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded">
+                    {tutorial.platform}
                   </span>
-                  <span className="text-gray-500 dark:text-gray-400 text-sm">
-                    {tutorial.duration}
+                  <span className="text-gray-500 dark:text-gray-400 text-xs">
+                    {tutorial.viewCount.toLocaleString()}次观看
                   </span>
-                </div>
-                <h3 className="text-xl font-bold mb-2">{tutorial.title}</h3>
-                <p className="text-gray-600 dark:text-gray-300 mb-4">{tutorial.description}</p>
-                <div className="flex items-center mt-auto">
-                  <span className={`px-2 py-1 rounded text-xs font-medium mr-2 ${
-                    tutorial.level === '初级'
-                      ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
-                      : tutorial.level === '中级'
-                      ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200'
-                      : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
-                  }`}>
-                    {tutorial.level}
-                  </span>
-                  <button className="btn btn-primary flex-grow">观看教程</button>
                 </div>
               </div>
             </div>
           ))}
         </div>
 
-        {/* Request Tutorial */}
-        <div className="mt-16 bg-primary-50 dark:bg-gray-700 rounded-lg p-8 text-center">
-          <h2 className="text-2xl font-bold mb-4">找不到您需要的内容？</h2>
-          <p className="text-lg mb-6 max-w-3xl mx-auto">
-            请求特定主题的教程，我们的团队将为您制作。
-          </p>
-          <button className="btn btn-primary px-6 py-3">请求教程</button>
-        </div>
+        {/* 空状态 */}
+        {tutorials.length === 0 && !loading && (
+          <div className="text-center py-12">
+            <div className="text-gray-400 text-6xl mb-4">📚</div>
+            <h3 className="text-xl font-semibold mb-2">暂无教程</h3>
+            <p className="text-gray-600 dark:text-gray-300">请稍后再来查看更多教程内容</p>
+          </div>
+        )}
+
+        {/* 视频播放弹窗 */}
+        {showVideoModal && selectedTutorial && (
+          <div
+            className="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50 p-2 sm:p-4"
+            onClick={closeVideoModal}
+          >
+            <div
+              className="bg-black rounded-lg w-full h-full max-w-7xl max-h-[95vh] flex flex-col overflow-hidden"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* 弹窗头部 - 更紧凑 */}
+              <div className="flex items-center justify-between p-3 bg-gray-900 text-white">
+                <h3 className="text-sm sm:text-base font-medium truncate pr-4">{selectedTutorial.title}</h3>
+                <button
+                  onClick={closeVideoModal}
+                  className="text-gray-300 hover:text-white text-xl sm:text-2xl flex-shrink-0 w-8 h-8 flex items-center justify-center"
+                >
+                  ×
+                </button>
+              </div>
+
+              {/* 视频内容区域 - 占据主要空间 */}
+              <div className="flex-1 bg-black flex items-center justify-center min-h-0">
+                <div className="w-full h-full">
+                  <iframe
+                    src={getPlayUrl(selectedTutorial)}
+                    className="w-full h-full border-0"
+                    allowFullScreen
+                    title={selectedTutorial.title}
+                  />
+                </div>
+              </div>
+
+              {/* 视频信息 - 可折叠的底部区域 */}
+              <div className="bg-gray-900 text-white p-3 max-h-24 overflow-y-auto">
+                <div className="flex items-center gap-4 text-xs sm:text-sm text-gray-300">
+                  <span className="bg-gray-700 px-2 py-1 rounded text-xs">
+                    {selectedTutorial.platform}
+                  </span>
+                  <span>{selectedTutorial.viewCount.toLocaleString()}次观看</span>
+                  {selectedTutorial.duration && (
+                    <span>{formatDuration(selectedTutorial.duration)}</span>
+                  )}
+                </div>
+                <p className="text-gray-300 text-xs sm:text-sm mt-2 line-clamp-2">
+                  {selectedTutorial.description}
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

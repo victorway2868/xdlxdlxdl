@@ -46,6 +46,16 @@ function Navbar() {
                   : "text-gray-600 hover:text-primary-600 dark:text-gray-300 dark:hover:text-primary-500"
               }
             >
+              下载软件
+            </NavLink>
+            <NavLink
+              to="/plugins"
+              className={({ isActive }) =>
+                isActive
+                  ? "text-primary-600 font-medium"
+                  : "text-gray-600 hover:text-primary-600 dark:text-gray-300 dark:hover:text-primary-500"
+              }
+            >
               插件工具
             </NavLink>
             <NavLink
@@ -127,6 +137,17 @@ function Navbar() {
               </NavLink>
               <NavLink
                 to="/downloads"
+                className={({ isActive }) =>
+                  isActive
+                    ? "text-primary-600 font-medium"
+                    : "text-gray-600 hover:text-primary-600 dark:text-gray-300 dark:hover:text-primary-500"
+                }
+                onClick={() => setIsMenuOpen(false)}
+              >
+                下载软件
+              </NavLink>
+              <NavLink
+                to="/plugins"
                 className={({ isActive }) =>
                   isActive
                     ? "text-primary-600 font-medium"

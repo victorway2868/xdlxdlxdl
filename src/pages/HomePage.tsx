@@ -14,7 +14,7 @@ function HomePage() {
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             <Link to="/downloads" className="btn bg-white text-primary-600 hover:bg-gray-100 px-8 py-3 rounded-lg font-medium text-lg">
-              下载工具
+              下载软件
             </Link>
             <Link to="/tutorials" className="btn bg-transparent border-2 border-white hover:bg-white/10 px-8 py-3 rounded-lg font-medium text-lg">
               查看教程
@@ -59,8 +59,8 @@ function HomePage() {
               <p className="text-gray-600 dark:text-gray-300 mb-4">
                 强大的软件工具，提升您的直播质量，管理覆盖层，并与观众互动。
               </p>
-              <Link to="/downloads" className="text-primary-600 hover:text-primary-700 font-medium inline-flex items-center">
-                立即下载
+              <Link to="/plugins" className="text-primary-600 hover:text-primary-700 font-medium inline-flex items-center">
+                查看插件
                 <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
                 </svg>
