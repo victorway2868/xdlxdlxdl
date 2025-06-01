@@ -64,27 +64,7 @@ function TutorialsPage() {
     return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
   };
 
-  const getLevelColor = (level: string) => {
-    switch (level) {
-      case 'beginner':
-        return 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200';
-      case 'intermediate':
-        return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200';
-      case 'advanced':
-        return 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200';
-      default:
-        return 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200';
-    }
-  };
-
-  const getLevelText = (level: string) => {
-    switch (level) {
-      case 'beginner': return '初级';
-      case 'intermediate': return '中级';
-      case 'advanced': return '高级';
-      default: return level;
-    }
-  };
+  // 移除未使用的函数以修复TypeScript错误
 
   const getPlayUrl = (tutorial: Tutorial) => {
     // 如果是抖音平台，转换URL格式
@@ -130,30 +110,7 @@ function TutorialsPage() {
     };
   }, [showVideoModal]);
 
-  const getTypeIcon = (type: string) => {
-    switch (type) {
-      case 'video':
-        return (
-          <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-            <path d="M2 6a2 2 0 012-2h6l2 2h6a2 2 0 012 2v6a2 2 0 01-2 2H4a2 2 0 01-2-2V6zM5 8a1 1 0 000 2h8a1 1 0 100-2H5z"/>
-          </svg>
-        );
-      case 'audio':
-        return (
-          <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-            <path fillRule="evenodd" d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217zM15.657 6.343a1 1 0 011.414 0A9.972 9.972 0 0119 12a9.972 9.972 0 01-1.929 5.657 1 1 0 11-1.414-1.414A7.971 7.971 0 0017 12a7.971 7.971 0 00-1.343-4.243 1 1 0 010-1.414z" clipRule="evenodd"/>
-          </svg>
-        );
-      case 'image':
-        return (
-          <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-            <path fillRule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clipRule="evenodd"/>
-          </svg>
-        );
-      default:
-        return null;
-    }
-  };
+  // 移除未使用的getTypeIcon函数
 
   if (loading) {
     return (
