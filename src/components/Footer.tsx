@@ -10,14 +10,11 @@ function Footer() {
           {/* Logo and Description */}
           <div className="col-span-1 md:col-span-1">
             <Link to="/" className="flex items-center space-x-3 mb-4">
-              <svg
-                className="h-8 w-8 text-primary-600"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-              >
-                <path d="M4 8H2v12a2 2 0 002 2h12v-2H4V8z" />
-                <path d="M20 2H8a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2V4a2 2 0 00-2-2zm-9 12V6l7 4-7 4z" />
-              </svg>
+              <img
+                src="/icons/icon-32x32.ico"
+                alt="小斗笠直播工具"
+                className="h-8 w-8"
+              />
               <span className="text-xl font-bold text-gray-900 dark:text-white">小斗笠直播工具</span>
             </Link>
             <p className="text-gray-600 dark:text-gray-300 text-sm">
