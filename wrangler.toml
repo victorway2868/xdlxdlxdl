@@ -1,15 +1,7 @@
 name = "streaming-assistant"
 compatibility_date = "2024-01-01"
 
-[env.production]
-account_id = "your-account-id"
-
-# Pages configuration
-[[env.production.routes]]
-pattern = "*"
-zone_name = "your-domain.com"
-
-# Build configuration
+# Build configuration for Cloudflare Pages
 [build]
 command = "npm run build"
 cwd = "."
