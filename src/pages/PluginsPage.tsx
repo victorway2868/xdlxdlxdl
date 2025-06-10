@@ -28,7 +28,7 @@ function PluginsPage() {
         setLoading(true);
         setError(null);
 
-        const response = await fetch('http://localhost:8000/api/v1/media-manifest/public/category/plugin', {
+        const response = await fetch('https://api.xiaodouli.dpdns.org:10272/api/v1/media-manifest/public/category/plugin', {
           method: 'GET',
           headers: {
             'accept': 'application/json',
@@ -151,7 +151,7 @@ function PluginsPage() {
             <div className="bg-white dark:bg-gray-800 p-4 rounded-lg mb-6 text-left max-w-2xl mx-auto">
               <h3 className="font-semibold mb-2">请检查:</h3>
               <ul className="text-sm space-y-1">
-                <li>• API服务器是否在 http://localhost:8000 运行</li>
+                <li>• API服务器是否在 https://api.xiaodouli.dpdns.org:10272 运行</li>
                 <li>• 网络连接是否正常</li>
                 <li>• API端点是否可访问</li>
               </ul>
@@ -185,7 +185,7 @@ function PluginsPage() {
               🔄 刷新数据
             </button>
             <span className="text-sm text-gray-500 dark:text-gray-400 flex items-center">
-              数据来源: API (localhost:8000)
+              数据来源: API (api.xiaodouli.dpdns.org:10272)
             </span>
           </div>
         </div>

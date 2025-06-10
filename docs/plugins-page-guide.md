@@ -45,7 +45,7 @@
 ## 技术实现
 
 ### API集成
-- **端点**: `http://localhost:8000/api/v1/media-manifest/public/category/plugin`
+- **端点**: `https://api.xiaodouli.dpdns.org:10272/api/v1/media-manifest/public/category/plugin`
 - **方法**: GET
 - **数据格式**: JSON
 - **预期响应结构**:
