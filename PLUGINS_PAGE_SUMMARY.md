@@ -24,8 +24,8 @@
 
 ### 4. 功能实现
 
-#### API集成
-- ✅ 使用 `http://localhost:8000/api/v1/media-manifest/public/category/plugin` 端点
+#### 数据集成
+- ✅ 使用本地数据文件 `src/data/mediaData.ts`
 - ✅ 完整的错误处理和加载状态
 - ✅ 数据格式验证和类型安全
 

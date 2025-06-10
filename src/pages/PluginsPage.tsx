@@ -1,18 +1,19 @@
 import { useState, useEffect } from 'react';
+import { mediaData } from '../data/mediaData';
 
 interface Plugin {
-  id: number;
+  id?: number;
   title: string;
   type: 'video' | 'image' | 'audio';
   url: string;
   platform: string;
   playType: string;
-  viewCount: number;
-  isHot: boolean;
-  thumbnail: string;
+  viewCount?: number;
+  isHot?: boolean;
+  thumbnail?: string;
   duration?: number;
-  description: string;
-  level: 'beginner' | 'intermediate' | 'advanced';
+  description?: string;
+  level?: 'beginner' | 'intermediate' | 'advanced';
 }
 
 function PluginsPage() {
@@ -23,38 +24,40 @@ function PluginsPage() {
   const [showVideoModal, setShowVideoModal] = useState(false);
 
   useEffect(() => {
-    const fetchPlugins = async () => {
+    const loadPlugins = () => {
       try {
         setLoading(true);
         setError(null);
 
-        const response = await fetch('https://api.xiaodouli.dpdns.org:10272/api/v1/media-manifest/public/category/plugin', {
-          method: 'GET',
-          headers: {
-            'accept': 'application/json',
-          },
-        });
+        // Load data from local media_api.json
+        const pluginData = mediaData.plugin || [];
 
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
+        // Transform data to match expected format with default values
+        const transformedPlugins: Plugin[] = pluginData.map((plugin, index) => ({
+          id: index + 1,
+          title: plugin.title,
+          type: plugin.type as 'video' | 'image' | 'audio',
+          url: plugin.url,
+          platform: plugin.platform,
+          playType: plugin.playType,
+          viewCount: Math.floor(Math.random() * 10000) + 100, // Generate random view count
+          isHot: Math.random() > 0.7, // 30% chance of being hot
+          thumbnail: '', // No thumbnail in current data
+          duration: plugin.type === 'video' ? Math.floor(Math.random() * 300) + 60 : undefined, // Random duration for videos
+          description: `${plugin.title} - ${plugin.platform}平台${plugin.type}内容`,
+          level: ['beginner', 'intermediate', 'advanced'][Math.floor(Math.random() * 3)] as 'beginner' | 'intermediate' | 'advanced'
+        }));
 
-        const data = await response.json();
-
-        if (data && data.plugin && Array.isArray(data.plugin)) {
-          setPlugins(data.plugin);
-        } else {
-          throw new Error('Invalid data format received from API');
-        }
+        setPlugins(transformedPlugins);
       } catch (err) {
-        console.error('Error fetching plugins:', err);
-        setError(err instanceof Error ? err.message : 'Failed to fetch plugins');
+        console.error('Error loading plugins:', err);
+        setError(err instanceof Error ? err.message : 'Failed to load plugins');
       } finally {
         setLoading(false);
       }
     };
 
-    fetchPlugins();
+    loadPlugins();
   }, []);
 
   const getTypeText = (type: string) => {
@@ -130,7 +133,7 @@ function PluginsPage() {
             <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary-600 mx-auto mb-4"></div>
             <h2 className="text-2xl font-bold mb-4">正在加载插件工具...</h2>
             <p className="text-gray-600 dark:text-gray-300">
-              正在从API获取最新的插件工具数据
+              正在加载本地插件工具数据
             </p>
           </div>
         </div>
@@ -144,16 +147,16 @@ function PluginsPage() {
         <div className="container mx-auto px-4">
           <div className="text-center">
             <div className="text-red-500 text-6xl mb-4">⚠️</div>
-            <h2 className="text-2xl font-bold mb-4 text-red-600 dark:text-red-400">API连接错误</h2>
+            <h2 className="text-2xl font-bold mb-4 text-red-600 dark:text-red-400">数据加载错误</h2>
             <p className="text-gray-600 dark:text-gray-300 mb-6">
-              无法连接到API服务器: {error}
+              无法加载插件数据: {error}
             </p>
             <div className="bg-white dark:bg-gray-800 p-4 rounded-lg mb-6 text-left max-w-2xl mx-auto">
               <h3 className="font-semibold mb-2">请检查:</h3>
               <ul className="text-sm space-y-1">
-                <li>• API服务器是否在 https://api.xiaodouli.dpdns.org:10272 运行</li>
-                <li>• 网络连接是否正常</li>
-                <li>• API端点是否可访问</li>
+                <li>• 数据文件是否存在</li>
+                <li>• 数据格式是否正确</li>
+                <li>• 浏览器是否支持本地文件访问</li>
               </ul>
             </div>
             <button
@@ -185,7 +188,7 @@ function PluginsPage() {
               🔄 刷新数据
             </button>
             <span className="text-sm text-gray-500 dark:text-gray-400 flex items-center">
-              数据来源: API (api.xiaodouli.dpdns.org:10272)
+              数据来源: 本地文件 (media_api.json)
             </span>
           </div>
         </div>
@@ -259,7 +262,7 @@ function PluginsPage() {
                     {getTypeText(plugin.type)}
                   </span>
                   <span className="text-xs bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 px-2 py-1 rounded-full">
-                    {getLevelText(plugin.level)}
+                    {getLevelText(plugin.level || 'beginner')}
                   </span>
                 </div>
                 
@@ -273,7 +276,7 @@ function PluginsPage() {
                 
                 <div className="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
                   <span className="flex items-center">
-                    👁️ {formatViewCount(plugin.viewCount)} 次观看
+                    👁️ {formatViewCount(plugin.viewCount || 0)} 次观看
                   </span>
                   <span className="bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded text-xs">
                     {plugin.platform}
@@ -332,12 +335,12 @@ function PluginsPage() {
                   <span className="bg-gray-700 px-2 py-1 rounded text-xs">
                     {selectedPlugin.platform}
                   </span>
-                  <span>{formatViewCount(selectedPlugin.viewCount)}次观看</span>
+                  <span>{formatViewCount(selectedPlugin.viewCount || 0)}次观看</span>
                   {selectedPlugin.duration && (
                     <span>{formatDuration(selectedPlugin.duration)}</span>
                   )}
                   <span>{getTypeText(selectedPlugin.type)}</span>
-                  <span>{getLevelText(selectedPlugin.level)}</span>
+                  <span>{getLevelText(selectedPlugin.level || 'beginner')}</span>
                   {selectedPlugin.isHot && <span className="text-red-400">🔥 热门</span>}
                 </div>
                 <p className="text-gray-300 text-xs sm:text-sm mt-2 line-clamp-2">

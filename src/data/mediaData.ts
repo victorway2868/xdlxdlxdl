@@ -1,0 +1,62 @@
+// Media data for plugins and tutorials
+export const mediaData = {
+  "advertisement": [
+    {
+      "title": "测试",
+      "type": "video",
+      "url": "https://www.w3schools.com/html/movie.mp4",
+      "platform": "douyin",
+      "playType": "autoplay"
+    },
+    {
+      "title": "广告测试百度连接",
+      "type": "image",
+      "url": "https://search-operate.cdn.bcebos.com/5903e2c5b4450536fb6c8f04a0d7df67.gif",
+      "platform": "iqiyi",
+      "playType": "autoplay"
+    },
+    {
+      "title": "广告测试",
+      "type": "image",
+      "url": "https://fastly.picsum.photos/id/537/200/300.jpg?hmac=LG3kZs5AdrMmsgeVOdrfP0C5KT3WmP-q5TauEZdR4vk",
+      "platform": "douyin",
+      "playType": "autoplay"
+    }
+  ],
+  "device": [
+    {
+      "title": "设备推荐测试",
+      "type": "video",
+      "url": "https://www.douyin.com/video/7512305558444068115",
+      "platform": "douyin",
+      "playType": "autoplay"
+    }
+  ],
+  "plugin": [
+    {
+      "title": "插件测试",
+      "type": "video",
+      "url": "https://www.douyin.com/video/7512305558444068115",
+      "platform": "douyin",
+      "playType": "autoplay"
+    }
+  ],
+  "tutorial": [
+    {
+      "title": "抖音测试中",
+      "type": "video",
+      "url": "https://www.douyin.com/video/7512305558444068115",
+      "platform": "douyin",
+      "playType": "autoplay"
+    },
+    {
+      "title": "celso",
+      "type": "video",
+      "url": "https://www.douyin.com/video/7512305558444068115",
+      "platform": "douyin",
+      "playType": "autoplay"
+    }
+  ]
+} as const;
+
+export default mediaData;

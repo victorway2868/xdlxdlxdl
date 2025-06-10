@@ -1,18 +1,19 @@
 import { useState, useEffect } from 'react';
+import { mediaData } from '../data/mediaData';
 
 interface Tutorial {
-  id: number;
+  id?: number;
   title: string;
   type: 'video' | 'image' | 'audio';
   url: string;
   platform: string;
   playType: string;
-  viewCount: number;
-  isHot: boolean;
-  thumbnail: string;
+  viewCount?: number;
+  isHot?: boolean;
+  thumbnail?: string;
   duration?: number;
-  description: string;
-  level: 'beginner' | 'intermediate' | 'advanced';
+  description?: string;
+  level?: 'beginner' | 'intermediate' | 'advanced';
 }
 
 function TutorialsPage() {
@@ -23,38 +24,40 @@ function TutorialsPage() {
   const [showVideoModal, setShowVideoModal] = useState(false);
 
   useEffect(() => {
-    const fetchTutorials = async () => {
+    const loadTutorials = () => {
       try {
         setLoading(true);
         setError(null);
 
-        const response = await fetch('https://api.xiaodouli.dpdns.org:10272/api/v1/media-manifest/public/category/tutorial', {
-          method: 'GET',
-          headers: {
-            'accept': 'application/json',
-          },
-        });
+        // Load data from local media_api.json
+        const tutorialData = mediaData.tutorial || [];
 
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
+        // Transform data to match expected format with default values
+        const transformedTutorials: Tutorial[] = tutorialData.map((tutorial, index) => ({
+          id: index + 1,
+          title: tutorial.title,
+          type: tutorial.type as 'video' | 'image' | 'audio',
+          url: tutorial.url,
+          platform: tutorial.platform,
+          playType: tutorial.playType,
+          viewCount: Math.floor(Math.random() * 10000) + 100, // Generate random view count
+          isHot: Math.random() > 0.7, // 30% chance of being hot
+          thumbnail: '', // No thumbnail in current data
+          duration: tutorial.type === 'video' ? Math.floor(Math.random() * 300) + 60 : undefined, // Random duration for videos
+          description: `${tutorial.title} - ${tutorial.platform}平台${tutorial.type}内容`,
+          level: ['beginner', 'intermediate', 'advanced'][Math.floor(Math.random() * 3)] as 'beginner' | 'intermediate' | 'advanced'
+        }));
 
-        const data = await response.json();
-
-        if (data && data.tutorial && Array.isArray(data.tutorial)) {
-          setTutorials(data.tutorial);
-        } else {
-          throw new Error('Invalid data format received from API');
-        }
+        setTutorials(transformedTutorials);
       } catch (err) {
-        console.error('Error fetching tutorials:', err);
-        setError(err instanceof Error ? err.message : 'Failed to fetch tutorials');
+        console.error('Error loading tutorials:', err);
+        setError(err instanceof Error ? err.message : 'Failed to load tutorials');
       } finally {
         setLoading(false);
       }
     };
 
-    fetchTutorials();
+    loadTutorials();
   }, []);
 
   const formatDuration = (seconds?: number) => {
@@ -118,7 +121,7 @@ function TutorialsPage() {
         <div className="container mx-auto px-4">
           <div className="text-center">
             <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary-600 mx-auto"></div>
-            <p className="mt-4 text-gray-600 dark:text-gray-300">正在从API加载教程数据...</p>
+            <p className="mt-4 text-gray-600 dark:text-gray-300">正在加载本地教程数据...</p>
           </div>
         </div>
       </div>
@@ -131,16 +134,16 @@ function TutorialsPage() {
         <div className="container mx-auto px-4">
           <div className="text-center">
             <div className="text-red-500 text-6xl mb-4">⚠️</div>
-            <h2 className="text-2xl font-bold mb-4 text-red-600 dark:text-red-400">API连接错误</h2>
+            <h2 className="text-2xl font-bold mb-4 text-red-600 dark:text-red-400">数据加载错误</h2>
             <p className="text-gray-600 dark:text-gray-300 mb-6">
-              无法连接到API服务器: {error}
+              无法加载教程数据: {error}
             </p>
             <div className="bg-white dark:bg-gray-800 p-4 rounded-lg mb-6 text-left max-w-2xl mx-auto">
               <h3 className="font-semibold mb-2">请检查:</h3>
               <ul className="text-sm space-y-1">
-                <li>• API服务器是否在 https://api.xiaodouli.dpdns.org:10272 运行</li>
-                <li>• 网络连接是否正常</li>
-                <li>• API端点是否可访问</li>
+                <li>• 数据文件是否存在</li>
+                <li>• 数据格式是否正确</li>
+                <li>• 浏览器是否支持本地文件访问</li>
               </ul>
             </div>
             <button
@@ -172,7 +175,7 @@ function TutorialsPage() {
               🔄 刷新数据
             </button>
             <span className="text-sm text-gray-500 dark:text-gray-400 flex items-center">
-              数据来源: API (api.xiaodouli.dpdns.org:10272)
+              数据来源: 本地文件 (media_api.json)
             </span>
           </div>
         </div>
@@ -192,7 +195,7 @@ function TutorialsPage() {
             <div className="text-gray-600 dark:text-gray-300">图片教程</div>
           </div>
           <div className="bg-white dark:bg-gray-800 rounded-lg p-6 text-center shadow-md">
-            <div className="text-2xl font-bold text-primary-600">{tutorials.reduce((sum, t) => sum + t.viewCount, 0).toLocaleString()}</div>
+            <div className="text-2xl font-bold text-primary-600">{tutorials.reduce((sum, t) => sum + (t.viewCount || 0), 0).toLocaleString()}</div>
             <div className="text-gray-600 dark:text-gray-300">总观看次数</div>
           </div>
         </div>
@@ -253,7 +256,7 @@ function TutorialsPage() {
                     {tutorial.platform}
                   </span>
                   <span className="text-gray-500 dark:text-gray-400 text-xs">
-                    {tutorial.viewCount.toLocaleString()}次观看
+                    {(tutorial.viewCount || 0).toLocaleString()}次观看
                   </span>
                 </div>
               </div>
@@ -309,7 +312,7 @@ function TutorialsPage() {
                   <span className="bg-gray-700 px-2 py-1 rounded text-xs">
                     {selectedTutorial.platform}
                   </span>
-                  <span>{selectedTutorial.viewCount.toLocaleString()}次观看</span>
+                  <span>{(selectedTutorial.viewCount || 0).toLocaleString()}次观看</span>
                   {selectedTutorial.duration && (
                     <span>{formatDuration(selectedTutorial.duration)}</span>
                   )}
