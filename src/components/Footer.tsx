@@ -12,10 +12,10 @@ function Footer() {
             <Link to="/" className="flex items-center space-x-3 mb-4">
               <img
                 src="/icons/icon-32x32.ico"
-                alt="小斗笠直播工具"
+                alt="小斗笠直播助手"
                 className="h-8 w-8"
               />
-              <span className="text-xl font-bold text-gray-900 dark:text-white">小斗笠直播工具</span>
+              <span className="text-xl font-bold text-gray-900 dark:text-white">小斗笠直播助手</span>
             </Link>
             <p className="text-gray-600 dark:text-gray-300 text-sm">
               您的终极直播伴侣。通过我们的工具和资源提升您的直播体验。
@@ -64,11 +64,6 @@ function Footer() {
                 </Link>
               </li>
               <li>
-                <Link to="/contact" className="text-gray-600 hover:text-primary-600 dark:text-gray-300 dark:hover:text-primary-500 text-sm">
-                  联系我们
-                </Link>
-              </li>
-              <li>
                 <a href="#" className="text-gray-600 hover:text-primary-600 dark:text-gray-300 dark:hover:text-primary-500 text-sm">
                   常见问题
                 </a>
@@ -112,7 +107,7 @@ function Footer() {
         {/* Copyright */}
         <div className="border-t border-gray-200 dark:border-gray-700 mt-8 pt-6">
           <p className="text-gray-600 dark:text-gray-300 text-sm text-center">
-            © {currentYear} 小斗笠直播工具. 保留所有权利.
+            © {currentYear} 小斗笠直播助手. 保留所有权利.
           </p>
         </div>
       </div>

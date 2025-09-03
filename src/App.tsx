@@ -6,7 +6,6 @@ import PluginsPage from './pages/PluginsPage'
 import TutorialsPage from './pages/TutorialsPage'
 import EquipmentPage from './pages/EquipmentPage'
 import DebugPage from './pages/DebugPage'
-import ContactPage from './pages/ContactPage'
 
 function App() {
   return (
@@ -18,7 +17,6 @@ function App() {
         <Route path="tutorials" element={<TutorialsPage />} />
         <Route path="equipment" element={<EquipmentPage />} />
         <Route path="debug" element={<DebugPage />} />
-        <Route path="contact" element={<ContactPage />} />
       </Route>
     </Routes>
   )

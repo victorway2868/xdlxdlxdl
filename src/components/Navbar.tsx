@@ -16,10 +16,10 @@ function Navbar() {
           <Link to="/" className="flex items-center space-x-3">
             <img
               src="/icons/icon-32x32.ico"
-              alt="小斗笠直播工具"
+              alt="小斗笠直播助手"
               className="h-8 w-8"
             />
-            <span className="text-xl font-bold text-gray-900 dark:text-white">小斗笠直播工具</span>
+            <span className="text-xl font-bold text-gray-900 dark:text-white">小斗笠直播助手</span>
           </Link>
 
           {/* Desktop Navigation */}
@@ -84,16 +84,6 @@ function Navbar() {
               }
             >
               技术支持
-            </NavLink>
-            <NavLink
-              to="/contact"
-              className={({ isActive }) =>
-                isActive
-                  ? "text-primary-600 font-medium"
-                  : "text-gray-600 hover:text-primary-600 dark:text-gray-300 dark:hover:text-primary-500"
-              }
-            >
-              联系我们
             </NavLink>
           </div>
 
@@ -186,17 +176,6 @@ function Navbar() {
                 onClick={() => setIsMenuOpen(false)}
               >
                 技术支持
-              </NavLink>
-              <NavLink
-                to="/contact"
-                className={({ isActive }) =>
-                  isActive
-                    ? "text-primary-600 font-medium"
-                    : "text-gray-600 hover:text-primary-600 dark:text-gray-300 dark:hover:text-primary-500"
-                }
-                onClick={() => setIsMenuOpen(false)}
-              >
-                联系我们
               </NavLink>
             </div>
           </div>
